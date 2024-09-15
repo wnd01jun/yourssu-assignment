@@ -22,7 +22,7 @@ public class NotEmailExistValidation implements ConstraintValidator<NotExistEmai
 //            return false;
 //        }
         Optional<User> user = userRepository.findByEmail(s);
-        if(!user.isPresent()){
+        if(user.isPresent()){
             return false;
         }
         return true;

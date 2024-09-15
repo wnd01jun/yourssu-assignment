@@ -24,7 +24,7 @@ public class EmailExistValidation implements ConstraintValidator<ExistEmail, Str
 //            return false;
 //        }
         Optional<User> user = userRepository.findByEmail(s);
-        if(!user.isEmpty()){
+        if(user.isEmpty()){
             return false;
         }
         return true;
