@@ -7,7 +7,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import yourssu.assignment.domain.basic.BaseEntity;
+import yourssu.assignment.domain.comment.entity.Comment;
 import yourssu.assignment.domain.user.entity.User;
+
+import java.util.List;
 
 @Entity
 @Getter
@@ -28,4 +31,7 @@ public class Article extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
+
+    @OneToMany(mappedBy = "article", orphanRemoval = true)
+    private List<Comment> comments;
 }
