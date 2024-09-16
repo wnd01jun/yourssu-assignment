@@ -16,7 +16,7 @@ public class CommentConverter {
                 .build();
     }
 
-    public static CommentResponseDTO.CommentPostResponse CommentToPost(Comment Comment) {
+    public static CommentResponseDTO.CommentPostResponse commentToPost(Comment Comment) {
         return CommentResponseDTO.CommentPostResponse.builder()
                 .commentId(Comment.getId())
                 .email(Comment.getUser().getEmail())
@@ -24,7 +24,7 @@ public class CommentConverter {
                 .build();
     }
 
-    public static CommentResponseDTO.CommentModifyResponse CommentToModify(Comment Comment) {
+    public static CommentResponseDTO.CommentModifyResponse commentToModify(Comment Comment) {
         return CommentResponseDTO.CommentModifyResponse.builder()
                 .commentId(Comment.getId())
                 .email(Comment.getUser().getEmail())
