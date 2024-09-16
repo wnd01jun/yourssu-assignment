@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import yourssu.assignment.domain.comment.service.CommentService;
 import yourssu.assignment.domain.user.dto.UserRequestDTO;
 import yourssu.assignment.domain.user.dto.UserResponseDTO;
 import yourssu.assignment.domain.user.entity.User;
@@ -17,6 +18,7 @@ import java.util.NoSuchElementException;
 public class UserServiceImpl implements UserService{
 
     private final UserRepository userRepository;
+    private final CommentService commentService;
     private final PasswordEncoder encoder;
 
     @Override
@@ -38,9 +40,8 @@ public class UserServiceImpl implements UserService{
     @Override
     public void withdrawUser(UserRequestDTO.UserWithdrawRequest dto) {
         User user = login(dto.getEmail(), dto.getPassword());
-        /*
-            모든 로직 지우는거 호출
-         */
+        commentService.withdrawAllByComment(user);
+        userRepository.delete(user);
 
     }
 

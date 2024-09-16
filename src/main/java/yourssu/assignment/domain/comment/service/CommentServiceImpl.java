@@ -72,4 +72,9 @@ public class CommentServiceImpl implements CommentService{
         }
         throw new RuntimeException("권한 없음 오류");
     }
+
+    @Override
+    public void withdrawAllByComment(User user) {
+        commentRepository.deleteAllByUser(user);
+    }
 }

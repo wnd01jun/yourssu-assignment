@@ -2,7 +2,7 @@ package yourssu.assignment.domain.comment.service;
 
 import yourssu.assignment.domain.comment.dto.CommentRequestDTO;
 import yourssu.assignment.domain.comment.dto.CommentResponseDTO;
-
+import yourssu.assignment.domain.user.entity.User;
 
 
 public interface CommentService {
@@ -18,4 +18,6 @@ public interface CommentService {
     void withdrawComment(
             CommentRequestDTO.CommentWithdrawRequest dto, Long CommentId
     );
+
+    void withdrawAllByComment(User user);
 }
