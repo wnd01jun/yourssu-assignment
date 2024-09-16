@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+import yourssu.assignment.domain.article.dto.ArticleRequestDTO;
 import yourssu.assignment.domain.basic.BaseEntity;
 import yourssu.assignment.domain.comment.entity.Comment;
 import yourssu.assignment.domain.user.entity.User;
@@ -34,4 +35,9 @@ public class Article extends BaseEntity {
 
     @OneToMany(mappedBy = "article", orphanRemoval = true)
     private List<Comment> comments;
+
+    public void updateArticle(ArticleRequestDTO.ArticleModifyRequest dto) {
+        title = dto.getTitle();
+        content = dto.getContent();
+    }
 }
