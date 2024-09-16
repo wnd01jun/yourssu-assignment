@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import yourssu.assignment.domain.article.entity.Article;
 import yourssu.assignment.domain.basic.BaseEntity;
+import yourssu.assignment.domain.comment.dto.CommentRequestDTO;
 import yourssu.assignment.domain.user.entity.User;
 
 @Entity
@@ -31,6 +32,10 @@ public class Comment extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "article_id")
     private Article article;
+
+    public void updateComment(CommentRequestDTO.CommentModifyRequest dto) {
+        content = dto.getContent();
+    }
 
 
 }
