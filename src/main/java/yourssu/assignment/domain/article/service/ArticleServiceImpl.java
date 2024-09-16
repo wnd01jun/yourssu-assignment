@@ -49,11 +49,11 @@ public class ArticleServiceImpl implements ArticleService{
     @Override
     public void withdrawArticle(ArticleRequestDTO.ArticleWithdrawRequest dto, Long articleId) {
         Article article = findArticle(articleId);
-        withdrawArticle(dto, article);
+        loginAndWithdrawArticle(dto, article);
 
     }
 
-    private void withdrawArticle(ArticleRequestDTO.ArticleWithdrawRequest dto, Article article) {
+    private void loginAndWithdrawArticle(ArticleRequestDTO.ArticleWithdrawRequest dto, Article article) {
         if(checkMasterOfPost(article, dto.getEmail(), dto.getPassword())) {
             articleRepository.delete(article);
         } else {
@@ -61,14 +61,11 @@ public class ArticleServiceImpl implements ArticleService{
         }
     }
 
-    private Article findArticle(Long articleId) {
+    public Article findArticle(Long articleId) {
         return articleRepository.findById(articleId).orElseThrow(() -> new NoSuchElementException());
     }
     private boolean checkMasterOfPost(Article article, String email, String password) {
         User user = userService.login(email, password);
-        if(article.getUser().getId() == user.getId()) {
-            return true;
-        }
-        return false;
+        return article.getUser().getId().equals(user.getId());
     }
 }

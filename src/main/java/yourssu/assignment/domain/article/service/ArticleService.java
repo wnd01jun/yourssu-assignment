@@ -2,6 +2,7 @@ package yourssu.assignment.domain.article.service;
 
 import yourssu.assignment.domain.article.dto.ArticleRequestDTO;
 import yourssu.assignment.domain.article.dto.ArticleResponseDTO;
+import yourssu.assignment.domain.article.entity.Article;
 
 public interface ArticleService {
 
@@ -16,4 +17,6 @@ public interface ArticleService {
     void withdrawArticle(
             ArticleRequestDTO.ArticleWithdrawRequest dto, Long articleId
     );
+
+    Article findArticle(Long articleId);
 }
