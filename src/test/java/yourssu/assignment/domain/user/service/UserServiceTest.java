@@ -55,8 +55,8 @@ class UserServiceTest {
                 .username("tester1")
                 .build();
         userService.registerUser(dto);
+        User user = userService.login("test1@naver.com", "test1");
 
-        User user = userRepository.findByEmail("test1@naver.com").get();
 
         Assertions.assertThat(user.getPassword()).isNotEqualTo("test1");
         Assertions.assertThat(passwordEncoder.matches("test1", user.getPassword())).isTrue();
