@@ -31,26 +31,36 @@ class UserServiceTest {
     static String LOGIN_PASSWORD = "qwer1234";
     static String USERNAME = "테스트1";
 
+    static Long userID;
+
     @BeforeEach
     void init() {
-        UserRequestDTO.UserRegisterRequest dto1 = UserRequestDTO.UserRegisterRequest.builder()
+        User user = User.builder()
                 .username(USERNAME)
                 .email(LOGIN_ID)
-                .password(LOGIN_PASSWORD)
+                .password(passwordEncoder.encode(LOGIN_PASSWORD))
                 .build();
 
-        UserResponseDTO.UserRegisterResponse response = userService.registerUser(dto1);
+        userRepository.save(user);
+        userID = user.getId();
     }
 
     @Test
     void registerUser() {
 
 
-        User user = userRepository.findByEmail(LOGIN_ID).get();
+        UserRequestDTO.UserRegisterRequest dto = UserRequestDTO.UserRegisterRequest.builder()
+                .email("test1@naver.com")
+                .password("test1")
+                .username("tester1")
+                .build();
+        userService.registerUser(dto);
 
-        Assertions.assertThat(user.getPassword()).isNotEqualTo(LOGIN_PASSWORD);
-        Assertions.assertThat(passwordEncoder.matches(LOGIN_PASSWORD, user.getPassword())).isTrue();
-        Assertions.assertThat(user.getUsername()).isEqualTo(USERNAME);
+        User user = userRepository.findByEmail("test1@naver.com").get();
+
+        Assertions.assertThat(user.getPassword()).isNotEqualTo("test1");
+        Assertions.assertThat(passwordEncoder.matches("test1", user.getPassword())).isTrue();
+        Assertions.assertThat(user.getUsername()).isEqualTo("tester1");
 
 
     }
