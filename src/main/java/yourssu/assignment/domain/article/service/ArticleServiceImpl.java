@@ -10,8 +10,9 @@ import yourssu.assignment.domain.article.entity.Article;
 import yourssu.assignment.domain.article.repository.ArticleRepository;
 import yourssu.assignment.domain.user.entity.User;
 import yourssu.assignment.domain.user.service.UserService;
+import yourssu.assignment.error.code.status.ErrorStatus;
+import yourssu.assignment.error.exception.GeneralException;
 
-import java.util.NoSuchElementException;
 
 @Service
 @Transactional
@@ -42,7 +43,7 @@ public class ArticleServiceImpl implements ArticleService{
         if(checkMasterOfPost(article, dto.getEmail(), dto.getPassword())) {
             article.updateArticle(dto);
         } else {
-            throw new RuntimeException("로그인 불가");
+            throw new GeneralException(ErrorStatus._UNAUTHORIZED);
         }
     }
 
@@ -57,12 +58,12 @@ public class ArticleServiceImpl implements ArticleService{
         if(checkMasterOfPost(article, dto.getEmail(), dto.getPassword())) {
             articleRepository.delete(article);
         } else {
-            throw new RuntimeException("로그인 불가");
+            throw new GeneralException(ErrorStatus._UNAUTHORIZED);
         }
     }
 
     public Article findArticle(Long articleId) {
-        return articleRepository.findById(articleId).orElseThrow(() -> new NoSuchElementException());
+        return articleRepository.findById(articleId).orElseThrow(() -> new GeneralException(ErrorStatus._ARTICLE_NOT_FOUND));
     }
     private boolean checkMasterOfPost(Article article, String email, String password) {
         User user = userService.login(email, password);
