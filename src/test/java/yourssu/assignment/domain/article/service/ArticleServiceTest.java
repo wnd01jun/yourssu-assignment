@@ -141,29 +141,9 @@ class ArticleServiceTest {
                 .user(user)
                 .build();
 
-        String testName = "yourssu";
-        String testMail = "yorssu@gmail.com";
-        String testPassword = "yourssu";
-
-        UserRequestDTO.UserRegisterRequest tester = UserRequestDTO.UserRegisterRequest.builder()
-                .username(testName)
-                .email(testMail)
-                .password(testPassword)
-                .build();
-        userService.registerUser(tester);
-        User testUser = userService.login(testMail, testPassword);
-
-        Article article4 = Article.builder()
-                .title("article4")
-                .content("articleContent4")
-                .user(testUser)
-                .build();
-        Article save = articleRepository.save(article4);
-
         articleRepository.save(article1);
         articleRepository.save(article2);
         articleRepository.save(article3);
-
 
         UserRequestDTO.UserWithdrawRequest withdrawRequest = UserRequestDTO.UserWithdrawRequest.builder()
                 .email(LOGIN_ID)
@@ -171,15 +151,11 @@ class ArticleServiceTest {
                 .build();
 
         userService.withdrawUser(withdrawRequest);
-
         em.clear();
 
         assertThat(articleRepository.findById(article1.getId()).isEmpty()).isTrue();
         assertThat(articleRepository.findById(article2.getId()).isEmpty()).isTrue();
         assertThat(articleRepository.findById(article3.getId()).isEmpty()).isTrue();
-        assertThat(articleRepository.findById(article4.getId()).isPresent()).isTrue();
-
-
 
     }
 

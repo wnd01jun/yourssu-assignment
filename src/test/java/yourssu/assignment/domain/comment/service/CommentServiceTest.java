@@ -163,7 +163,7 @@ class CommentServiceTest {
         CommentResponseDTO.CommentPostResponse response2 = commentService.postComment(dto2);
 
 
-        commentService.withdrawAllByComment(user1);
+        commentService.withdrawAllByUser(user1);
 
         Optional<Comment> comment1 = commentRepository.findById(response1.getCommentId());
         assertThat(comment1.isPresent()).isFalse();
