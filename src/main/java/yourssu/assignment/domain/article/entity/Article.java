@@ -1,10 +1,7 @@
 package yourssu.assignment.domain.article.entity;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 import yourssu.assignment.domain.article.dto.ArticleRequestDTO;
 import yourssu.assignment.domain.basic.BaseEntity;
@@ -18,6 +15,7 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @SuperBuilder
+@EqualsAndHashCode(callSuper=false)
 public class Article extends BaseEntity {
 
     @Id
