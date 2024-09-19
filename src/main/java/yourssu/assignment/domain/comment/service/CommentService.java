@@ -19,5 +19,5 @@ public interface CommentService {
             CommentRequestDTO.CommentWithdrawRequest dto, Long CommentId
     );
 
-    void withdrawAllByComment(User user);
+    void withdrawAllByUser(User user);
 }

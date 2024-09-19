@@ -45,6 +45,7 @@ public class CommentServiceImpl implements CommentService{
     private void loginAndModifyComment(CommentRequestDTO.CommentModifyRequest dto, Comment comment) {
         if(checkMasterOfComment(comment, dto.getEmail(), dto.getPassword())) {
             comment.updateComment(dto);
+            return;
         }
         throw new RuntimeException("권한 없음 오류");
     }
@@ -69,12 +70,13 @@ public class CommentServiceImpl implements CommentService{
     private void loginAndWithdrawComment(CommentRequestDTO.CommentWithdrawRequest dto, Comment comment) {
         if(checkMasterOfComment(comment, dto.getEmail(), dto.getPassword())) {
             commentRepository.delete(comment);
+            return;
         }
         throw new RuntimeException("권한 없음 오류");
     }
 
     @Override
-    public void withdrawAllByComment(User user) {
+    public void withdrawAllByUser(User user) {
         commentRepository.deleteAllByUser(user);
     }
 }

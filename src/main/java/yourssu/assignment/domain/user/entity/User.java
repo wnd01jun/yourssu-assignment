@@ -1,10 +1,7 @@
 package yourssu.assignment.domain.user.entity;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 import yourssu.assignment.domain.article.entity.Article;
 import yourssu.assignment.domain.basic.BaseEntity;
@@ -16,6 +13,7 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @SuperBuilder
+@EqualsAndHashCode(callSuper=false)
 public class User extends BaseEntity {
 
     @Id
@@ -30,6 +28,6 @@ public class User extends BaseEntity {
 
     private String password;
 
-    @OneToMany(mappedBy = "user", orphanRemoval = true)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Article> articles;
 }
