@@ -19,7 +19,7 @@ public enum ErrorStatus implements BaseErrorCode {
     _PASSWORD_BAD_REQUEST(HttpStatus.UNAUTHORIZED, "PASSWORD401", "비밀번호가 일치하지 않습니다."),
     _EMAIL_NOT_FOUND(HttpStatus.NOT_FOUND, "EMAIL404", "해당 이메일을 찾을 수 없습니다."),
     _EMAIL_CONFLICT(HttpStatus.CONFLICT, "EMAIL409", "해당 이메일은 이미 가입한 이메일입니다."),
-    PAGE_LOWER_ZERO(HttpStatus.BAD_REQUEST, "PAGE4001", "요청된 페이지가 0보다 작습니다.");
+    _UNAUTHORIZED(HttpStatus.UNAUTHORIZED, "409", "해당 요청에 관해 권한이 없습니다.");
 
 
     private HttpStatus httpStatus;
