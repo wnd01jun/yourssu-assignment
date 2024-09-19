@@ -12,8 +12,9 @@ import yourssu.assignment.domain.comment.entity.Comment;
 import yourssu.assignment.domain.comment.repository.CommentRepository;
 import yourssu.assignment.domain.user.entity.User;
 import yourssu.assignment.domain.user.service.UserService;
+import yourssu.assignment.error.code.status.ErrorStatus;
+import yourssu.assignment.error.exception.GeneralException;
 
-import java.util.NoSuchElementException;
 
 @Service
 @Transactional
@@ -47,7 +48,7 @@ public class CommentServiceImpl implements CommentService{
             comment.updateComment(dto);
             return;
         }
-        throw new RuntimeException("권한 없음 오류");
+        throw new GeneralException(ErrorStatus._UNAUTHORIZED);
     }
 
     private boolean checkMasterOfComment(Comment comment, String email, String password) {
@@ -57,7 +58,7 @@ public class CommentServiceImpl implements CommentService{
     }
 
     private Comment findComment(Long commentId) {
-        return commentRepository.findById(commentId).orElseThrow(() -> new NoSuchElementException("comment x"));
+        return commentRepository.findById(commentId).orElseThrow(() -> new GeneralException(ErrorStatus._COMMENT_NOT_FOUND));
     }
 
 
@@ -72,7 +73,7 @@ public class CommentServiceImpl implements CommentService{
             commentRepository.delete(comment);
             return;
         }
-        throw new RuntimeException("권한 없음 오류");
+        throw new GeneralException(ErrorStatus._UNAUTHORIZED);
     }
 
     @Override
