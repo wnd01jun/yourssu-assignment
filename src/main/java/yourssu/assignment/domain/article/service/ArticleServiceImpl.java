@@ -33,12 +33,12 @@ public class ArticleServiceImpl implements ArticleService{
     @Override
     public ArticleResponseDTO.ArticleModifyResponse modifyArticle(ArticleRequestDTO.ArticleModifyRequest dto, Long articleId) {
         Article article = findArticle(articleId);
-        updateArticle(dto, article);
+        loginAndUpdateArticle(dto, article);
 
         return ArticleConverter.articleToModify(article);
     }
 
-    private void updateArticle(ArticleRequestDTO.ArticleModifyRequest dto, Article article) {
+    private void loginAndUpdateArticle(ArticleRequestDTO.ArticleModifyRequest dto, Article article) {
         if(checkMasterOfPost(article, dto.getEmail(), dto.getPassword())) {
             article.updateArticle(dto);
         } else {
