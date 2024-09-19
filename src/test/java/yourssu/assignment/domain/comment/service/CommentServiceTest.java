@@ -1,17 +1,14 @@
 package yourssu.assignment.domain.comment.service;
 
 import jakarta.persistence.EntityManager;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 import yourssu.assignment.domain.article.dto.ArticleRequestDTO;
 import yourssu.assignment.domain.article.dto.ArticleResponseDTO;
 import yourssu.assignment.domain.article.entity.Article;
-import yourssu.assignment.domain.article.repository.ArticleRepository;
 import yourssu.assignment.domain.article.service.ArticleService;
 import yourssu.assignment.domain.comment.dto.CommentRequestDTO;
 import yourssu.assignment.domain.comment.dto.CommentResponseDTO;
@@ -25,7 +22,6 @@ import yourssu.assignment.domain.user.service.UserService;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
@@ -137,7 +133,6 @@ class CommentServiceTest {
     }
 
     @Test
-    @Rollback(false)
     void withdrawAllByComment() {
         String testId = "test@test.com";
         String testPassword = "testest";
