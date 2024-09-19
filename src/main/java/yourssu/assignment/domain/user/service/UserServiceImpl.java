@@ -5,13 +5,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import yourssu.assignment.domain.comment.repository.CommentRepository;
-import yourssu.assignment.domain.comment.service.CommentService;
 import yourssu.assignment.domain.user.dto.UserRequestDTO;
 import yourssu.assignment.domain.user.dto.UserResponseDTO;
 import yourssu.assignment.domain.user.entity.User;
 import yourssu.assignment.domain.user.repository.UserRepository;
+import yourssu.assignment.error.code.status.ErrorStatus;
+import yourssu.assignment.error.exception.GeneralException;
 
-import java.util.NoSuchElementException;
 
 @Service
 @Transactional
@@ -47,10 +47,10 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public User login(String email, String password) {
-        User user = userRepository.findByEmail(email).orElseThrow(() -> new NoSuchElementException());
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new GeneralException(ErrorStatus._EMAIL_NOT_FOUND));
         if (encoder.matches(password, user.getPassword())) {
             return user;
         }
-        return null; // 혹은 예외 던지기
+        throw new GeneralException(ErrorStatus._PASSWORD_BAD_REQUEST);
     }
 }
