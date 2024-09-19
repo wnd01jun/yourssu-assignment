@@ -43,7 +43,6 @@ public class UserServiceImpl implements UserService{
         User user = login(dto.getEmail(), dto.getPassword());
         commentRepository.deleteAllByUser(user);
         userRepository.delete(user);
-
     }
 
     @Override

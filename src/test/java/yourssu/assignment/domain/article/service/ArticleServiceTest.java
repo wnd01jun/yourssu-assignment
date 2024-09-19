@@ -1,11 +1,14 @@
 package yourssu.assignment.domain.article.service;
 
+import jakarta.persistence.EntityManager;
 import org.aspectj.lang.annotation.Before;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 import yourssu.assignment.domain.article.dto.ArticleRequestDTO;
 import yourssu.assignment.domain.article.dto.ArticleResponseDTO;
@@ -19,6 +22,7 @@ import yourssu.assignment.domain.user.service.UserService;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
@@ -31,6 +35,8 @@ class ArticleServiceTest {
     public ArticleRepository articleRepository;
     @Autowired
     UserService userService;
+    @Autowired
+    EntityManager em;
 
     static String LOGIN_ID = "changjun157@naver.com";
     static String LOGIN_PASSWORD = "qwer1234";
@@ -77,8 +83,8 @@ class ArticleServiceTest {
         ArticleResponseDTO.ArticlePostResponse result = articleService.postArticle(dto);
         Article article = articleRepository.findById(result.getArticleId()).orElseThrow(() -> new NoSuchElementException());
 
-        Assertions.assertThat(result.getTitle()).isEqualTo(article.getTitle());
-        Assertions.assertThat(result.getContent()).isEqualTo(article.getContent());
+        assertThat(result.getTitle()).isEqualTo(article.getTitle());
+        assertThat(result.getContent()).isEqualTo(article.getContent());
     }
 
     @Test
@@ -93,8 +99,8 @@ class ArticleServiceTest {
                 .build();
         articleService.modifyArticle(dto, article.getId());
 
-        Assertions.assertThat(article.getTitle()).isEqualTo("good");
-        Assertions.assertThat(article.getContent()).isEqualTo("yourssu");
+        assertThat(article.getTitle()).isEqualTo("good");
+        assertThat(article.getContent()).isEqualTo("yourssu");
 
 
 
@@ -110,7 +116,73 @@ class ArticleServiceTest {
                 .build();
         articleService.withdrawArticle(dto, article.getId());
 
-        Assertions.assertThat(articleRepository.findById(articleId).isEmpty()).isTrue();
+        assertThat(articleRepository.findById(articleId).isEmpty()).isTrue();
     }
+
+    @Test
+    @Rollback(false)
+    @DisplayName(value = "유저가 삭제되면 해당 유저와 관련된 Article도 삭제되어야 한다.")
+    void deleteUser() {
+        User user = userService.login(LOGIN_ID, LOGIN_PASSWORD);
+
+        Article article1 = Article.builder()
+                .title("article1")
+                .content("articleContent1")
+                .user(user)
+                .build();
+        Article article2 = Article.builder()
+                .title("article2")
+                .content("articleContent2")
+                .user(user)
+                .build();
+        Article article3 = Article.builder()
+                .title("article3")
+                .content("articleContent3")
+                .user(user)
+                .build();
+
+        String testName = "yourssu";
+        String testMail = "yorssu@gmail.com";
+        String testPassword = "yourssu";
+
+        UserRequestDTO.UserRegisterRequest tester = UserRequestDTO.UserRegisterRequest.builder()
+                .username(testName)
+                .email(testMail)
+                .password(testPassword)
+                .build();
+        userService.registerUser(tester);
+        User testUser = userService.login(testMail, testPassword);
+
+        Article article4 = Article.builder()
+                .title("article4")
+                .content("articleContent4")
+                .user(testUser)
+                .build();
+        Article save = articleRepository.save(article4);
+
+        articleRepository.save(article1);
+        articleRepository.save(article2);
+        articleRepository.save(article3);
+
+
+        UserRequestDTO.UserWithdrawRequest withdrawRequest = UserRequestDTO.UserWithdrawRequest.builder()
+                .email(LOGIN_ID)
+                .password(LOGIN_PASSWORD)
+                .build();
+
+        userService.withdrawUser(withdrawRequest);
+
+        em.clear();
+
+        assertThat(articleRepository.findById(article1.getId()).isEmpty()).isTrue();
+        assertThat(articleRepository.findById(article2.getId()).isEmpty()).isTrue();
+        assertThat(articleRepository.findById(article3.getId()).isEmpty()).isTrue();
+        assertThat(articleRepository.findById(article4.getId()).isPresent()).isTrue();
+
+
+
+    }
+
+
 
 }

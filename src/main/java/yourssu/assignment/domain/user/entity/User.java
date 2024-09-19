@@ -28,6 +28,6 @@ public class User extends BaseEntity {
 
     private String password;
 
-    @OneToMany(mappedBy = "user", orphanRemoval = true)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Article> articles;
 }
