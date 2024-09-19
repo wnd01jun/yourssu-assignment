@@ -5,6 +5,7 @@ import jakarta.validation.ConstraintValidatorContext;
 import lombok.RequiredArgsConstructor;
 import yourssu.assignment.domain.comment.entity.Comment;
 import yourssu.assignment.domain.comment.repository.CommentRepository;
+import yourssu.assignment.error.code.status.ErrorStatus;
 
 import java.util.Optional;
 
@@ -19,6 +20,8 @@ public class CommentExistValidation implements ConstraintValidator<ExistComment,
         Optional<Comment> comment = commentRepository.findById(commentId);
 
         if(comment.isEmpty()) {
+            constraintValidatorContext.disableDefaultConstraintViolation();
+            constraintValidatorContext.buildConstraintViolationWithTemplate(ErrorStatus._COMMENT_NOT_FOUND.toString()).addConstraintViolation();
             return false;
         }
 

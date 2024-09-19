@@ -2,6 +2,7 @@ package yourssu.assignment.domain.user.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -10,6 +11,7 @@ import yourssu.assignment.domain.user.dto.UserRequestDTO;
 import yourssu.assignment.domain.user.dto.UserResponseDTO;
 import yourssu.assignment.domain.user.service.UserService;
 
+@Validated
 @RestController
 @RequiredArgsConstructor
 public class UserController {

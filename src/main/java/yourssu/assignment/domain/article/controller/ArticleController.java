@@ -2,12 +2,14 @@ package yourssu.assignment.domain.article.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import yourssu.assignment.domain.article.dto.ArticleRequestDTO;
 import yourssu.assignment.domain.article.dto.ArticleResponseDTO;
 import yourssu.assignment.domain.article.service.ArticleService;
 import yourssu.assignment.domain.article.validation.ExistArticle;
 
+@Validated
 @RestController
 @RequiredArgsConstructor
 public class ArticleController {
@@ -24,7 +26,7 @@ public class ArticleController {
      @PutMapping("/articles/{articleId}")
      public ArticleResponseDTO.ArticleModifyResponse modifyArticle(
              @RequestBody @Valid ArticleRequestDTO.ArticleModifyRequest dto,
-             @PathVariable @ExistArticle @Valid Long articleId
+             @PathVariable(name = "articleId") @ExistArticle @Valid Long articleId
      ) {
          return articleService.modifyArticle(dto, articleId);
      }
