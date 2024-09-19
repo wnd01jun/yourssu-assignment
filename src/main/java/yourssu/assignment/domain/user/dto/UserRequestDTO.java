@@ -13,7 +13,8 @@ public class UserRequestDTO {
     @Builder
     public static class UserRegisterRequest {
         @NotBlank
-        @Pattern(regexp = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+.[A-Za-z]{2,6}$")
+        @Pattern(regexp = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+.[A-Za-z]{2,6}$"
+        , message = "메일 양식을 따라주세요!")
         @NotExistEmail
         private String email;
         @NotBlank
